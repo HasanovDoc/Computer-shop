@@ -1,0 +1,65 @@
+# Build results
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# dotnet tools
+.dotnet/
+
+# Environment variables
+.env
+.env.*
+
+# Secrets
+secrets.json
+appsettings.Development.json
+
+# Publish
+publish/
+
+# Test results
+TestResults/
+
+# Coverage
+coverage/
+coverage.*.xml
+
+# Azure
+.azure/
+
+# Docker
+docker-compose.override.yml
+
+# User-specific files
+*.rsuser
+*.userprefs
+
+# Temporary files
+*.tmp
+*.temp
