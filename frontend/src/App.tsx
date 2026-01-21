@@ -1,11 +1,11 @@
-import { ProductsPage } from "./pages/ProductsPage";
+import { CatalogPage } from './pages/CatalogPage';
+import { ThemeToggle } from './components/ThemeToggle';
 
-function App() {
+export default function App() {
   return (
-    <div>
-      <ProductsPage />
+    <div style={{ padding: 20 }}>
+      <ThemeToggle />
+      <CatalogPage />
     </div>
   );
 }
-
-export default App;
