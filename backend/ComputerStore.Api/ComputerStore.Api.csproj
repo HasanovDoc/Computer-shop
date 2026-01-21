@@ -16,12 +16,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
-  <Target Name="BuildFrontend" BeforeTargets="Publish">
+  <!-- <Target Name="BuildFrontend" BeforeTargets="Publish">
     <Exec Command="npm install" WorkingDirectory="../../frontend" />
     <Exec Command="npm run build" WorkingDirectory="../../frontend" />
     <Exec Command="rm -rf wwwroot/*" />
     <Exec Command="cp -r ../../frontend/dist/* wwwroot/" />
-  </Target>
+  </Target> -->
 
 
 
