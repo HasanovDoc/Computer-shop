@@ -1,25 +1,23 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:15
+    container_name: computer_shop_db
     environment:
-      POSTGRES_DB: computer_store
+      POSTGRES_DB: computer_shop
       POSTGRES_USER: backend_user
       POSTGRES_PASSWORD: backend_password
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   backend:
-    build: ./backend
+    build: ./backend/ComputerStore.Api
+    container_name: computer_shop_api
     ports:
-      - "5000:8080"
+      - "5000:80"
     depends_on:
       - db
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
+volumes:
+  pgdata:
