@@ -3,26 +3,26 @@ import type { Product } from '../types';
 import { useCartStore } from '../store/cartStore';
 
 type Props = {
-  product: Product;
+    product: Product;
 };
 
 export const ProductCard = ({ product }: Props) => {
-  const add = useCartStore((s) => s.add);
+    const add = useCartStore((s) => s.add);
 
-  return (
-    <Card>
-      <CardContent>
-        <Typography variant="h6">{product.name}</Typography>
-        <Typography>{product.priceSell} ₽</Typography>
+    return (
+        <Card>
+            <CardContent>
+                <Typography variant="h6">{product.name}</Typography>
+                <Typography>{product.priceSell} ₽</Typography>
 
-        <Button
-          variant="contained"
-          onClick={() => add(product)}
-          disabled={product.isSold}
-        >
-          В корзину
-        </Button>
-      </CardContent>
-    </Card>
-  );
+                <Button
+                    variant="contained"
+                    onClick={() => add(product)}
+                    disabled={product.isSold}
+                >
+                    {!product.isSold ? 'В корзину' : 'Нет в наличии'}
+                </Button>
+            </CardContent>
+        </Card>
+    );
 };
