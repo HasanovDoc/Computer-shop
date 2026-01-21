@@ -9,14 +9,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install dep
+        working-directory: frontend
         run: npm ci
       - name: Lint
+        working-directory: frontend
         run: npm run lint 
 
   build:
     needs: lint
     steps:
       - name: build
+        working-directory: frontend
         run: npm run build
 
   # run_pull:
