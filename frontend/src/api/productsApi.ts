@@ -2,8 +2,8 @@ import { api } from './api';
 import type { Product, BuyRequest, BuyResponse, ProductType } from '../types';
 
 export const productsApi = {
-  getAll: async (): Promise<Product[]> => {
-    const res = await api.get<Product[]>('/products');
+  getAll: async (search?: string): Promise<Product[]> => {
+    const res = await api.get<Product[]>('/products', { params: { specSearch: search } });
     return res.data;
   },
 

@@ -12,12 +12,18 @@ public class ProductsController : ControllerBase
     public ProductsController(AppDbContext db) => _db = db;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+    public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] string? specSearch = null)
     {
-        return await _db.Products
+        var query = _db.Products
             .Include(p => p.ProductType)
-            .Where(p => !p.IsSold)
-            .ToListAsync();
+            .Where(p => !p.IsSold);
+
+        if (!string.IsNullOrEmpty(specSearch))
+        {
+            query = query.Where(p => EF.Functions.ILike(p.Specs, $"%{specSearch}%"));
+        }
+
+        return await query.ToListAsync();
     }
 
     [HttpPost]
