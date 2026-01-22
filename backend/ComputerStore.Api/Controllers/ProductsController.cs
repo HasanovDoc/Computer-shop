@@ -3,30 +3,40 @@ using ComputerStore.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ComputerStore.Api.Controllers;
-
 [ApiController]
 [Route("api/products")]
 public class ProductsController : ControllerBase
 {
     private readonly AppDbContext _db;
 
-    public ProductsController(AppDbContext db)
-    {
-        _db = db;
-    }
+    public ProductsController(AppDbContext db) => _db = db;
 
     [HttpGet]
-    public async Task<List<Product>> GetAll()
+    public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
     {
-        return await _db.Products.Include(x => x.ProductType).ToListAsync();
+        return await _db.Products
+            .Include(p => p.ProductType)
+            .Where(p => !p.IsSold)
+            .ToListAsync();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Product product)
+    public async Task<IActionResult> Create([FromBody] Product product)
     {
+        product.IsSold = false;
+        
+        if (string.IsNullOrEmpty(product.Specs)) 
+        {
+            product.Specs = "{}";
+        }
+
         _db.Products.Add(product);
         await _db.SaveChangesAsync();
-        return Ok(product);
+        
+        var createdProduct = await _db.Products
+            .Include(p => p.ProductType)
+            .FirstOrDefaultAsync(p => p.Id == product.Id);
+
+        return Ok(createdProduct);
     }
 }
