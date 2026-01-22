@@ -14,8 +14,15 @@ interface ProductForm {
     specs: string;
 }
 
+interface SpecRow {
+    key: string;
+    value: string;
+}
+
 export const AdminPage = () => {
     const queryClient = useQueryClient();
+    const [specRows, setSpecRows] = useState<SpecRow[]>([{ key: '', value: '' }]);
+    const addSpecRow = () => setSpecRows([...specRows, { key: '', value: '' }]);
     const [notify, setNotify] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
         open: false,
         message: '',
@@ -36,8 +43,23 @@ export const AdminPage = () => {
         specs: '{}'
     });
 
+    const updateSpecRow = (index: number, field: keyof SpecRow, val: string) => {
+        const updated = [...specRows];
+        updated[index][field] = val;
+        setSpecRows(updated);
+    };
+
     const handleAddProduct = async (e: React.FormEvent) => {
         e.preventDefault();
+        const specsObject = specRows.reduce((acc, row) => {
+            if (row.key.trim()) acc[row.key.trim()] = row.value.trim();
+            return acc;
+        }, {} as Record<string, string>);
+
+        const payload = {
+            ...productForm,
+            specs: JSON.stringify(specsObject)
+        };
         try {
             let finalTypeId = productForm.productTypeId;
 
@@ -48,14 +70,8 @@ export const AdminPage = () => {
                 await queryClient.invalidateQueries({ queryKey: ['productTypes'] });
             }
 
-            await api.post('/products', {
-                name: productForm.name,
-                productTypeId: finalTypeId,
-                priceBuy: productForm.priceBuy,
-                priceSell: productForm.priceSell,
-                specs: productForm.specs,
-                isSold: false
-            });
+            await api.post('/products', payload);
+            setSpecRows([{ key: '', value: '' }]);
 
             setNotify({ open: true, message: 'Товар успешно добавлен', severity: 'success' });
             queryClient.invalidateQueries({ queryKey: ['products'] });
@@ -119,6 +135,26 @@ export const AdminPage = () => {
                     <Button type="submit" variant="contained" size="large" sx={{ gridColumn: 'span 2' }}>
                         Сохранить в базу
                     </Button>
+                </Box>
+                <Box sx={{ gridColumn: 'span 2', mt: 2 }}>
+                    <Typography variant="subtitle1" gutterBottom>Характеристики</Typography>
+                    {specRows.map((row, index) => (
+                        <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                            <TextField 
+                                label="Характеристика" 
+                                size="small" 
+                                value={row.key} 
+                                onChange={(e) => updateSpecRow(index, 'key', e.target.value)}
+                            />
+                            <TextField 
+                                label="Значение" 
+                                size="small" 
+                                value={row.value} 
+                                onChange={(e) => updateSpecRow(index, 'value', e.target.value)}
+                            />
+                        </Box>
+                    ))}
+                    <Button onClick={addSpecRow} size="small">+ Добавить поле</Button>
                 </Box>
             </Paper>
 

@@ -1,9 +1,24 @@
 import { api } from './api';
 import type { Product, BuyRequest, BuyResponse, ProductType } from '../types';
 
+export interface FilterOptions {
+  brands: string[];
+  freqs: string[];
+}
+
 export const productsApi = {
-  getAll: async (): Promise<Product[]> => {
-    const res = await api.get<Product[]>('/products');
+  getAll: async (params?: { 
+    typeId?: number | string, 
+    brand?: string, 
+    freq?: string, 
+    search?: string 
+  }): Promise<Product[]> => {
+    const res = await api.get<Product[]>('/products', { params });
+    return res.data;
+  },
+
+  getFilters: async (): Promise<FilterOptions> => {
+    const res = await api.get<FilterOptions>('/products/filters');
     return res.data;
   },
 
