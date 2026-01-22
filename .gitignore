@@ -33,7 +33,7 @@ packages/
 .dotnet/
 
 # Environment variables
-.env
+*.env
 .env.*
 
 # Secrets
