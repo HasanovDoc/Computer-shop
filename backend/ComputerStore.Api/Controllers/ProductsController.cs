@@ -23,6 +23,13 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
+        ModelState.Remove("ProductType");
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         product.IsSold = false;
         
         if (string.IsNullOrEmpty(product.Specs)) 
