@@ -25,4 +25,11 @@ export type BuyResponse = {
   totalAmount: number;
 };
 
+export interface User {
+    id?: number;
+    username: string;
+    passwordHash: string;
+    role: 'Admin' | 'Customer';
+}
+
 export type ProductsByCategory = Record<string, Product[]>;

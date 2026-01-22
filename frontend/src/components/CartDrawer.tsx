@@ -22,7 +22,7 @@ export const CartDrawer = ({ open, onClose }: Props) => {
             onClose();
             // alert('Спасибо за покупку!');
         } catch (error) {
-            alert(`Ошибка при оформлении ${error}`);
+            console.error(error);
         }
     };
 
