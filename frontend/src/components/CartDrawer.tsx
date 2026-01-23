@@ -20,7 +20,6 @@ export const CartDrawer = ({ open, onClose }: Props) => {
             await queryClient.invalidateQueries({ queryKey: ['products'] });
             clear();
             onClose();
-            // alert('Спасибо за покупку!');
         } catch (error) {
             console.error(error);
         }

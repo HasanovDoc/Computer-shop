@@ -44,10 +44,7 @@ export const CatalogPage = () => {
     const handleReset = () => {
         setFilters({ typeId: '', brand: '', freq: '' });
         setSearchTerm('');
-    };
-
-    console.log(filterOptions);
-    
+    };    
 
     return (
         <Box sx={{ flexGrow: 1 }}>
