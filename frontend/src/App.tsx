@@ -8,6 +8,7 @@ import { useCartStore } from './store/cartStore';
 import { Button, Badge, AppBar, Toolbar, Typography, Container } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ComputerIcon from '@mui/icons-material/Computer';
 
 export default function App() {
   const [view, setView] = useState<'catalog' | 'admin'>('catalog');
@@ -20,7 +21,8 @@ export default function App() {
       <AppBar position="sticky" color="default">
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }} onClick={() => setView('catalog')} style={{ cursor: 'pointer' }}>
-            Computer Store
+            <ComputerIcon />
+            Computer Shop
           </Typography>
           
           <ThemeToggle />
