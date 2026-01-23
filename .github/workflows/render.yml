@@ -1,0 +1,40 @@
+# render.yaml
+services:
+  - type: web
+    name: backend
+    env: docker
+    dockerfilePath: Dockerfile
+    branch: main
+    plan: free
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        fromDatabase:
+          name: Computer-shop
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: Computer-shop
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: Computer-shop
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: Computer-shop
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: Computer-shop
+          property: password
+
+  - type: static
+    name: frontend
+    branch: main
+    buildCommand: cd frontend && npm ci && npm run build
+    publishPath: frontend/dist
+    plan: free
